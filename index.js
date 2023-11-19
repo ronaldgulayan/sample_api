@@ -14,12 +14,22 @@ const db = mysql.createConnection({
 });
 
 app.get("/api/get_info", (req, res) => {
-  const sql = "SELECT * FROM info;";
+  // const sql = "SELECT * FROM info;";
 
-  db.query(sql, function (error, result) {
-    if (error) return res.json({ status: "error", data: error });
-    return res.json({ status: "success", data: result });
-  });
+  // db.query(sql, function (error, result) {
+  //   if (error) return res.json({ status: "error", data: error });
+  //   return res.json({ status: "success", data: result });
+  // });
+  try {
+    const sql = "SELECT * FROM info;";
+    db.query(sql, function (error, result) {
+      if (error) throw error;
+      return res.json({ status: "success", data: result });
+    });
+  } catch (error) {
+    console.error("Error in database query:", error);
+    return res.json({ status: "error", data: error });
+  }
 });
 
 app.listen(PORT, () => {
