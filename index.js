@@ -23,11 +23,15 @@ app.get("/api/get_info", (req, res) => {
   try {
     const sql = "SELECT * FROM info;";
     db.query(sql, function (error, result) {
-      if (error) throw error;
+      if (error) {
+        console.error("Error:", error);
+        return res.json({ status: "error", data: error });
+      }
+      console.log("Success:", result);
       return res.json({ status: "success", data: result });
     });
   } catch (error) {
-    console.error("Error in database query:", error);
+    console.error("Catch Error:", error);
     return res.json({ status: "error", data: error });
   }
 });
